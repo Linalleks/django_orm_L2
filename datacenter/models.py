@@ -29,7 +29,6 @@ class Visit(models.Model):
             )
         )
 
-    # рассчитывает длительность визита, возвращает количество секунд
     def get_duration(self):
         from django.utils.timezone import localtime, now
         if self.leaved_at:
@@ -38,7 +37,6 @@ class Visit(models.Model):
             delta = localtime(now().replace(microsecond=0)) - localtime(self.entered_at)
         return delta.total_seconds()
 
-    # определяет, подозрителен визит или нет. Возвращает True или False
     def is_visit_long(self, minutes=60):
         minutes_duration = self.get_duration() // 60
         if minutes_duration > minutes:
@@ -46,7 +44,6 @@ class Visit(models.Model):
         else:
             return False
 
-    # Превращает длительность визита в строку, готовит к выводу на страницу
     def format_duration(self):
         seconds = int(self.get_duration())
         hours = seconds // 3600
